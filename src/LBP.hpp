@@ -10,6 +10,8 @@
 using namespace cv;
 using namespace std;
 
+
+
 namespace lbp {
 
     template <typename _Tp>
