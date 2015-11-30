@@ -63,13 +63,10 @@ void releseDate(){
 Mat calcHistograms(vector<Mat> &imgs,int histSize,const float * histRange){
     //vector<Mat> ans(imgs.size());
     Mat tmp,ans;
-    for (int i = 0; i <imgs.size() ; i++) {
+    calcHist( &imgs[0], 1, 0, Mat(),ans, 1, &histSize, &histRange, true, false );
+    for (int i = 1; i <imgs.size() ; i++) {
         calcHist( &imgs[i], 1, 0, Mat(),tmp, 1, &histSize, &histRange, true, false );
-        if(ans.data){
             hconcat(ans, tmp, ans);
-        }else{
-            ans=tmp;
-        }
         // a.push_back(ans[i]);
     }
     //cout<<ans<<"\n "<<ans.size()<<endl;
@@ -88,31 +85,6 @@ void calcVariance(Mat &src,vector<double> &mean, vector<double> &dst){
     }
 }
 int main() {
-//    float d[2][4]=  {{1,2,3,4},{4,2,3,7}};
-//    float d1[1][4]= {{7,1,8,0}};
-//
-//
-//
-//    Mat a = Mat(2,4,CV_32F,d);
-//    Mat b = Mat(1,4,CV_32F,d1);
-////    Mat variance,m;
-////    max(a,b,m);
-////    //Mat mask=Mat::ones(3,1,CV_8UC1);
-////    cout<<a<<endl;
-////    cout<<b<<endl;
-////    cout<<m<<endl;
-//
-//    Mat A = Mat::eye(3,3,CV_32F), B;
-//    sortIdx(b, B, CV_SORT_EVERY_ROW + CV_SORT_ASCENDING);
-//    cout<<b<<endl;
-//    cout<<B<<endl;
-
-//    Scalar mean,stddev;
-//    meanStdDev(a.col(1),mean,stddev);
-//
-//    cout<<"MEAN\n"<<mean<<endl;
-//    cout<<"Variance\n"<<stddev<<endl;
-
 
     for (int classIndex = 0; classIndex < data.size(); classIndex++) {
         if (loadImg(imeges[classIndex], data[classIndex])) {
@@ -134,77 +106,42 @@ int main() {
     vector<double> ans,sick,meanGood,meanSick;
     calcVariance(histograms[0],meanGood,ans);
     calcVariance(histograms[1],meanSick,sick);
+    Mat im;
+    //im=imread("/home/sasha/ClionProjects/texture-classification/res/lena.jpg",1);
+    imshow("img",imeges[0][0]);
+    //imwrite("/home/sasha/ClionProjects/texture-classification/res/lbp_good_1.jpg",imeges[0][0]);
+    Mat img = imeges[0][0],h=histograms[0].col(0);
+    lbp::showHistogram(img);
+
+    lbp::drawHist(h,"my hist");
+
+
+
 
 
     Mat a = Mat(ans);
-    Mat b =Mat(sick);
-    //cout<<a<<endl;
+//    Mat b =Mat(sick);
+//    //cout<<a<<endl;
     lbp::drawHist(a,"good");
-    lbp::drawHist(b,"sick");
-    Mat div = abs(a-b);
-    lbp::drawHist(div,"div");
+
+    switch(a.type()) {
+        case CV_8SC1: cout<<"type = CV_8SC1"<<endl; break;
+        case CV_16SC1: cout<<"type = CV_16SC1"<<endl; break;
+        case CV_16UC1: cout<<"type = CV_16UC1"<<endl; break;
+        case CV_32SC1: cout<<"type = CV_32SC1"<<endl; break;
+        case CV_32FC1: cout<<"type = CV_32FC1"<<endl; break;
+        case CV_64FC1: cout<<"type = CV_64FC1"<<endl; break;
+
+    }
+
+//    lbp::drawHist(b,"sick");
+//    Mat div = abs(a-b);
+//    lbp::drawHist(div,"div");
 
 
 
-
-
-//    compareHist()
-//   double compared = compareHist(histograms[0].row(0),histograms[0].row(1),0);
-//    cout<<endl<<compared<<endl;
-//
-//
-//
-////    lbp::drawHist(histograms[0][0],"hist 1");
-////    imshow("lbp final",histograms[0][0]);
-//    cout<<histograms[0];
-//    Mat tr;
-//    transpose(histograms[0],tr);
-//    cout<<tr;
-//    meanStdDev()
     waitKey(0);
 
-//    int imgSize=2;
-//    Mat image[imgSize];
-//    Mat dst[imgSize];
-//    Mat lbp[imgSize];
-//    for (int i = 0; i < imgSize; i++) {
-// float       image[i] = imread( path[i], 1 );
-//        if ( !image[i].data )
-//        {
-//            printf("No image data \n");
-//            return -1;
-//        }
-//        cvtColor(image[i], dst[i], CV_BGR2GRAY);
-//        lbp::OLBP(dst[i], lbp[i]);
-//        normalize(lbp[i], lbp[i], 0, 255, NORM_MINMAX, CV_8UC1);
-//
-//        lbp::drawHist(lbp[i],"img "+i);
-//        imshow("original "+i, image[i]);
-//        imshow("lbp "+i, lbp[i]);
-//    }
-//
-//
-//
-//
-////    calcHist( &lbp, 1, 0, Mat(), hist, 1, &histSize, &histRange, uniform, accumulate );
-////
-////    int hist_w = 512; int hist_h = 400;
-////    int bin_w = cvRound( (double) hist_w/histSize );
-////
-////    Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 255,255,255) );
-////
-////    normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
-////    for( int i = 1; i < histSize; i++ )
-////    {
-////        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1)) ) ,
-////              Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)) ),
-////              Scalar( 255, 0, 0), 2, 8, 0  );
-////
-////    }
-//
-//
-////    imshow("calcHist Demo", histImage );
-//
-//    waitKey(0);
+
     return 0;
 }
