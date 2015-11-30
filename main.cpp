@@ -60,6 +60,14 @@ void convertIMG(Mat &img) {
 }
 void releseDate(){
 }
+void drawAllImegesHist(vector<Mat>histograms){
+    for (int i = 0; i <histograms.size() ; i++) {
+        for (int j = 0; j <histograms[i].cols ; ++j) {
+            Mat t = histograms[i].col(j);
+            lbp::drawHist(t,"hist class "+to_string(i)+" img # "+to_string(j));
+        }
+    }
+}
 Mat calcHistograms(vector<Mat> &imgs,int histSize,const float * histRange){
     //vector<Mat> ans(imgs.size());
     Mat tmp,ans;
@@ -106,33 +114,25 @@ int main() {
     vector<double> ans,sick,meanGood,meanSick;
     calcVariance(histograms[0],meanGood,ans);
     calcVariance(histograms[1],meanSick,sick);
-    Mat im;
-    //im=imread("/home/sasha/ClionProjects/texture-classification/res/lena.jpg",1);
-    imshow("img",imeges[0][0]);
-    //imwrite("/home/sasha/ClionProjects/texture-classification/res/lbp_good_1.jpg",imeges[0][0]);
-    Mat img = imeges[0][0],h=histograms[0].col(0);
-    lbp::showHistogram(img);
+    drawAllImegesHist(histograms);
+//    Mat im;
+//    //im=imread("/home/sasha/ClionProjects/texture-classification/res/lena.jpg",1);
+//    imshow("img",imeges[0][0]);
+//    //imwrite("/home/sasha/ClionProjects/texture-classification/res/lbp_good_1.jpg",imeges[0][0]);
+//    Mat img = imeges[0][0],h=histograms[0].col(0);
+//    lbp::showHistogram(img);
+//
+//    lbp::drawHist(h,"my hist");
+//
+//
+//
+//
+//
+//    Mat a = Mat(ans);
+////    Mat b =Mat(sick);
+////    //cout<<a<<endl;
+//    lbp::drawHist(a,"good");
 
-    lbp::drawHist(h,"my hist");
-
-
-
-
-
-    Mat a = Mat(ans);
-//    Mat b =Mat(sick);
-//    //cout<<a<<endl;
-    lbp::drawHist(a,"good");
-
-    switch(a.type()) {
-        case CV_8SC1: cout<<"type = CV_8SC1"<<endl; break;
-        case CV_16SC1: cout<<"type = CV_16SC1"<<endl; break;
-        case CV_16UC1: cout<<"type = CV_16UC1"<<endl; break;
-        case CV_32SC1: cout<<"type = CV_32SC1"<<endl; break;
-        case CV_32FC1: cout<<"type = CV_32FC1"<<endl; break;
-        case CV_64FC1: cout<<"type = CV_64FC1"<<endl; break;
-
-    }
 
 //    lbp::drawHist(b,"sick");
 //    Mat div = abs(a-b);
