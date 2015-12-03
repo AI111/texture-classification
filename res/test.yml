@@ -1,22 +1,23 @@
 %YAML:1.0
 MyData:
+   LBP: 0
+   entropy: 1
+   binarization: 1
+   entropAnsSize: 256
+   thresholdTresh: 0.48
+   binarizationThreshold: 0.5
+   medianMaskSize: 5
    DataClass1:
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/good/4aftENndm_4.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/good/AJdocBFYGTw.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/good/H2difUwqaMo.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/good/ntaSw0ri3x0.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/good/4aftENndm_4.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/good/AJdocBFYGTw.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/good/H2difUwqaMo.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/good/ntaSw0ri3x0.jpg" }
    DataClass2:
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/bad/dSPT4uKT2eE.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/bad/FJtA4nR9f5Q.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/bad/Jfebkg-mWEg.jpg" }
-      - {
-          url:"/home/sasha/ClionProjects/texture-classification/res/bad/xOPEc8D3xpM.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/dSPT4uKT2eE.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/FJtA4nR9f5Q.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/Jfebkg-mWEg.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/xOPEc8D3xpM.jpg" }
    TestData:
-      []
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/FJtA4nR9f5Q.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/bad/Jfebkg-mWEg.jpg" }
+      - { url:"/home/sasha/ClionProjects/texture-classification/res/good/ntaSw0ri3x0.jpg" }

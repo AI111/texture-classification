@@ -12,17 +12,20 @@ using namespace std;
 using namespace cv;
 class MyData {
 
-public:   // Data Members
-//    string id;
+public:
     vector<string> goodData;
     vector<string> sickData;
     vector<string> testData;
-    string concatVector(const vector<string> &vec);
-
+    bool LBP;
+    bool entropy;
+    bool binarization;
+    int entropAnsSize;
+    double thresholdTresh;
+    double binarizationThreshold;
+    int medianMaskSize;
 public:
     void read(const FileNode& node);
     void write(FileStorage& fs)const;//Read serialization for this class
-//    static ostream& operator<<(ostream& out, const MyData& m);
     string concatVector(vector<string> &vec) const;
 
     string concatVector(const vector<string> &vec) const;
@@ -34,5 +37,5 @@ public:
     void readVector(vector<string> &vec, const FileNode &fn, const string name);
 };
 
-
+std::ostream& operator<<(std::ostream &strm, const MyData &a);
 #endif //TEXTURE_CLASSIFICATION_MYDATA_H

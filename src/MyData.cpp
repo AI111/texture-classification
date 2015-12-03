@@ -5,6 +5,14 @@
 #include "MyData.h"
 
 void MyData::read(const FileNode &node) {
+    LBP=(int)node["LBP"];
+    entropy=(int)node["entropy"];
+    binarization=(int)node["binarization"];
+    entropAnsSize=(int)node["entropAnsSize"];
+    thresholdTresh=(double)node["thresholdTresh"];
+    binarizationThreshold=(double)node["binarizationThreshold"];
+    medianMaskSize=(int)node["medianMaskSize"];
+
     readVector(goodData,node,"DataClass1");
     readVector(sickData,node,"DataClass2");
     readVector(testData,node,"TestData");
@@ -25,6 +33,8 @@ void MyData::read(const FileNode &node) {
 
 void MyData::write(FileStorage &fs)const {
 fs<<"{";
+    fs<<"LBP"<<LBP<<"binarization"<<binarization<<"entropy"<<entropy<<"entropAnsSize"<<entropAnsSize
+    <<"thresholdTresh"<<"binarizationThreshold"<<binarizationThreshold<<thresholdTresh<<"medianMaskSize"<<medianMaskSize;
     concatVector(goodData,fs,"DataClass1");
         concatVector(sickData,fs,"DataClass2");
     concatVector(testData,fs,"TestData");
@@ -55,4 +65,9 @@ void MyData::readVector(vector<string> &vec,const FileNode &fn,const string name
         cout << "feature #" << idx << ": ";
         cout << "url=" << (*it).name() <<" "<< (cv::String)(*it)["url"]<<endl;
     }
+}
+std::ostream& operator<<(std::ostream &strm, const MyData &a) {
+    return strm << "MyData(" << "LBP = "<<a.LBP <<"\nbinarization = "<<a.binarization<<"\nentropy=" <<a.entropy
+           <<"\nentropAnsSize = "<<a.entropAnsSize<<"\nthresholdTresh = "<<a.thresholdTresh<<"\nbinarizationThreshold = "
+           <<a.binarizationThreshold<<"\nmedianMaskSize = "<<a.medianMaskSize<< ")";
 }
