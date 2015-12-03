@@ -159,7 +159,7 @@ int main(int argc, char ** argv) {
         return -1;
     }
     cout<<argc<<endl;
-    string file_url=argv[1];//"test.xml";
+    string file_url=argv[1];//"test.yml";
 
     FileStorage fs;
     cout << endl << "Reading: " << endl;
@@ -247,7 +247,7 @@ int main(int argc, char ** argv) {
         for (int j = 0; j <imeges[i].size() ; j++) {
            // imshow("img "+to_string(i)+" img # "+to_string(j),imeges[i][j]);
             Mat dst;//(512,512,CV_32F);
-            Mat entrop = lbp::calcEntrop2(imeges[i][j],128 );
+            Mat entrop = lbp::calcEntrop2(imeges[i][j],64 );
             normalize(entrop, entrop, 0, 255, NORM_MINMAX);
             ///imshow("entrop 2" ,entro);
             //cout<<entrop;
