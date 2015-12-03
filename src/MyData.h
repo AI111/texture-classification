@@ -26,6 +26,12 @@ public:
     string concatVector(vector<string> &vec) const;
 
     string concatVector(const vector<string> &vec) const;
+
+    void concatVector(const vector<string> &vec, FileStorage &fs) const;
+
+    void concatVector(const vector<string> &vec, FileStorage &fs, const string name) const;
+
+    void readVector(vector<string> &vec, const FileNode &fn, const string name);
 };
 
 

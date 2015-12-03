@@ -12,7 +12,16 @@
 using namespace cv;
 using namespace std;
 
-
+vector<vector<string>> data({
+                                     {"/home/sasha/ClionProjects/texture-classification/res/good/4aftENndm_4.jpg",
+                                        "/home/sasha/ClionProjects/texture-classification/res/good/AJdocBFYGTw.jpg",
+                                        "/home/sasha/ClionProjects/texture-classification/res/good/H2difUwqaMo.jpg",
+                                        "/home/sasha/ClionProjects/texture-classification/res/good/ntaSw0ri3x0.jpg"
+                                       },
+                                     {"/home/sasha/ClionProjects/texture-classification/res/bad/dSPT4uKT2eE.jpg",
+                                       "/home/sasha/ClionProjects/texture-classification/res/bad/FJtA4nR9f5Q.jpg",
+                                       "/home/sasha/ClionProjects/texture-classification/res/bad/Jfebkg-mWEg.jpg",
+                                       "/home/sasha/ClionProjects/texture-classification/res/bad/xOPEc8D3xpM.jpg"}});
 
 static void write(FileStorage& fs, const std::string&, const MyData& x)
 {
@@ -146,7 +155,7 @@ Mat spatial_histogram(Mat &img,int histSize,const float * histRange,int w_s,int 
 int main(int argc, char ** argv) {
 
     if(argc<2){
-        cout<<"set config xml file path "<<argc<<endl;
+        cout<<"set config .yml file path "<<argc<<endl;
         return -1;
     }
     cout<<argc<<endl;
