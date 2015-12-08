@@ -1,8 +1,11 @@
 %YAML:1.0
 MyData:
    LBP: 0
-   entropy: 1
+   entropy: 0
    binarization: 1
+   DFT: 0
+   LBPHIST: 0
+   lbpHistSize: 4
    entropAnsSize: 256
    thresholdTresh: 0.48
    binarizationThreshold: 0.5

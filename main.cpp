@@ -134,7 +134,7 @@ Mat spatial_histogram(Mat &img, int histSize, const float *histRange, int w_s, i
     int window_w = img.cols / w_s;
     int window_h = img.rows / h_s;
     Mat M = Mat(img, Rect(0, 0, window_w, window_h));
-    histSize /= windows;
+   // histSize /= windows;
     calcHist(&M, 1, 0, Mat(), ans, 1, &histSize, &histRange, true, false);
     for (int j = 1; j < windows; j++) {
         M = Mat(img, Rect((j % w_s) * window_w, ((int) (j / w_s)) * window_h, window_w, window_h));
@@ -180,42 +180,43 @@ int main(int argc, char **argv) {
     for (Mat &mat: testData) {
         convertIMG(mat);
     }
-    for (int i = 0; i < imeges.size(); i++) {
-        for (int j = 0; j < imeges[i].size(); j++) {
-            // imshow("img "+to_string(i)+" img # "+to_string(j),imeges[i][j]);
-            Mat dst;//(512,512,CV_32F);
-            if (configData.entropy) {
-                Mat entrop = lbp::calcEntrop2(imeges[i][j], configData.entropAnsSize);
-                normalize(entrop, entrop, 0, 255, NORM_MINMAX);
-                lbp::dftShift(entrop, dst);
-            } else {
-                lbp::dftShift(imeges[i][j], dst);
-            }
+    if(configData.DFT) {
+        for (int i = 0; i < imeges.size(); i++) {
+            for (int j = 0; j < imeges[i].size(); j++) {
+                // imshow("img "+to_string(i)+" img # "+to_string(j),imeges[i][j]);
+                Mat dst;//(512,512,CV_32F);
+                if (configData.entropy) {
+                    Mat entrop = lbp::calcEntrop2(imeges[i][j], configData.entropAnsSize);
+                    normalize(entrop, entrop, 0, 255, NORM_MINMAX);
+                    lbp::dftShift(entrop, dst);
+                } else {
+                    lbp::dftShift(imeges[i][j], dst);
+                }
 
-            ///imshow("entrop 2" ,entro);
-            //cout<<entrop;
+                ///imshow("entrop 2" ,entro);
+                //cout<<entrop;
 
-            //imshow("spectrum",dst);
-            //cout<<dst;
-            double min, max;
-            minMaxLoc(dst, &min, &max);
-            //cout<<"Max ="<<max<<endl;
+                //imshow("spectrum",dst);
+                //cout<<dst;
+                double min, max;
+                minMaxLoc(dst, &min, &max);
+                //cout<<"Max ="<<max<<endl;
 //            max*=configData.thresholdTresh;//MaxLmaxoc(dst,&min,&max);
-            //cout<<"Max ="<<max<<endl;
-            threshold(dst, dst, max * configData.thresholdTresh, max, cv::ThresholdTypes::THRESH_TOZERO);
-            //imshow("Threshold spectrum",dst);
-            medianBlur(dst, dst, configData.medianMaskSize);
+                //cout<<"Max ="<<max<<endl;
+                threshold(dst, dst, max * configData.thresholdTresh, max, cv::ThresholdTypes::THRESH_TOZERO);
+                //imshow("Threshold spectrum",dst);
+                medianBlur(dst, dst, configData.medianMaskSize);
 
-            if (configData.binarization)
-                threshold(dst, dst, max * configData.binarizationThreshold, 1, cv::ThresholdTypes::THRESH_BINARY);
-            cout << "SUM = " << sum(dst) << endl;
+                if (configData.binarization)
+                    threshold(dst, dst, max * configData.binarizationThreshold, 1, cv::ThresholdTypes::THRESH_BINARY);
+                cout << "SUM = " << sum(dst) << endl;
 
-            imshow("spectrum class " + to_string(i) + " img # " + to_string(j), dst);
+                imshow("spectrum class " + to_string(i) + " img # " + to_string(j), dst);
+            }
         }
     }
-
-//    float range[] = { 0, 256 } ;
-//    const float* histRange = { range };
+    float range[] = { 0, 256 } ;
+    const float* histRange = { range };
 //    imshow("original img",imeges[0][0]);
 ////    cout<<imeges[0][0]<<endl;
 //   Mat entr=calcEntrop2(imeges[0][0],64);
@@ -229,16 +230,45 @@ int main(int argc, char **argv) {
 //    }
 //    vector<double> ans,sick,meanGood,meanSick;
 //    calcVariance(histograms[0],meanGood,ans);
-//    calcVariance(histograms[1],meanSick,sick);
+//    calcVariance(lbpHistograms[1],meanSick,sick);
 
-//    for (int i = 0; i <imeges.size() ; i++) {
-//        for (int j = 0; j <imeges[i].size() ; j++) {
-//            Mat dst=spatial_histogram(imeges[i][j],histSize,histRange,2,2);
-//            lbp::drawHist(dst,"spatial_histogram class "+to_string(i)+" # "+to_string(j));
-//        }
-//    }
 
-//
+    if(!configData.DFT) {
+        vector<vector<Mat>> lbpHistograms(imeges.size());
+        for (int i = 0; i < imeges.size(); i++) {
+            for (int j = 0; j < imeges[i].size(); j++) {
+                Mat dst = spatial_histogram(imeges[i][j], histSize, histRange, configData.lbpHistSize,configData.lbpHistSize);
+                lbp::drawHist(dst, "spatial_histogram class " + to_string(i) + " # " + to_string(j));
+                normalize( dst, dst, 0, 1, NORM_MINMAX, -1, Mat() );
+                lbpHistograms[i].push_back(dst);
+            }
+        }
+
+        for( int i = 0; i < 5; i++ )
+        {
+            int compare_method = i;
+            double base_base = compareHist( lbpHistograms[0][0],lbpHistograms[0][1], compare_method );
+            cout<<"compare "<<base_base<<endl;
+        }
+        cout<<endl;
+        for( int i = 0; i < 5; i++ )
+        {
+            int compare_method = i;
+            double base_base = compareHist( lbpHistograms[0][0],lbpHistograms[1][0], compare_method );
+            cout<<"compare "<<base_base<<endl;
+        }
+        cout<<endl;
+
+        for( int i = 0; i < 5; i++ )
+        {
+            int compare_method = i;
+            double base_base = compareHist( lbpHistograms[1][3],lbpHistograms[1][0], compare_method );
+            cout<<"compare "<<base_base<<endl;
+        }
+
+        lbpHistograms.clear();
+    }
+
 
 //
 //    Mat a = Mat(ans);

@@ -50,7 +50,7 @@ template <typename _Tp>
 void ::lbp::drawHist_(Mat &h,const String& name) {
     Mat hist = h.clone();
     int histSize = hist.rows;
-   // std::cout<<"HIST ARR\n"<<hist<<"\nHIST ARR SIZE = "<<hist.rows<<" x "<<hist.cols<<std::endl;
+    // std::cout<<"HIST ARR\n"<<hist<<"\nHIST ARR SIZE = "<<hist.rows<<" x "<<hist.cols<<std::endl;
     int hist_w = 800; int hist_h = 300;
     int bin_w = cvRound( (double) hist_w/histSize );
 
@@ -64,8 +64,8 @@ void ::lbp::drawHist_(Mat &h,const String& name) {
 //              Point( bin_w*(i), hist_h - cvRound(hist.at<float>(i)) ),
 //              Scalar( 255, 255, 255), 2, 8, 0  );
         rectangle( histImage, Point( bin_w*(i), hist_h) ,
-              Point( bin_w*(i+1), hist_h - cvRound(hist.at<_Tp>(i)) ),
-              Scalar( 0, 0, 0), 1, 8, 0);
+                   Point( bin_w*(i+1), hist_h - cvRound(hist.at<_Tp>(i)) ),
+                   Scalar( 0, 0, 0), 1, 8, 0);
 
     }
     namedWindow(name, CV_WINDOW_AUTOSIZE );
@@ -208,6 +208,7 @@ Mat lbp::calcEntrop1(Mat &src,int size){
     }
     return ans;
 }
+
 Mat lbp::calcEntrop2(Mat &src,int size){
     Mat ans = Mat(size,size,CV_32FC1);
     int window_size=round(src.cols/size);

@@ -8,6 +8,10 @@ void MyData::read(const FileNode &node) {
     LBP=(int)node["LBP"];
     entropy=(int)node["entropy"];
     binarization=(int)node["binarization"];
+    DFT=(int)node["DFT"];
+    LBPHIST=(int)node["LBPHIST"];
+    lbpHistSize=(int)node["lbpHistSize"];
+
     entropAnsSize=(int)node["entropAnsSize"];
     thresholdTresh=(double)node["thresholdTresh"];
     binarizationThreshold=(double)node["binarizationThreshold"];
@@ -67,7 +71,8 @@ void MyData::readVector(vector<string> &vec,const FileNode &fn,const string name
     }
 }
 std::ostream& operator<<(std::ostream &strm, const MyData &a) {
-    return strm << "MyData(" << "LBP = "<<a.LBP <<"\nbinarization = "<<a.binarization<<"\nentropy=" <<a.entropy
+    return strm << "MyData(" << "LBP = "<<a.LBP <<"\nDFT = "<<a.DFT<< "\nLBPHIST = "<<a.LBPHIST<<"\nlbpHistSize = "
+           << a.lbpHistSize <<"\nbinarization = "<<a.binarization<<"\nentropy=" <<a.entropy
            <<"\nentropAnsSize = "<<a.entropAnsSize<<"\nthresholdTresh = "<<a.thresholdTresh<<"\nbinarizationThreshold = "
            <<a.binarizationThreshold<<"\nmedianMaskSize = "<<a.medianMaskSize<< ")";
 }

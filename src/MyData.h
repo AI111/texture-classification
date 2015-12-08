@@ -19,6 +19,9 @@ public:
     bool LBP;
     bool entropy;
     bool binarization;
+    bool DFT;
+    bool LBPHIST;
+    int lbpHistSize;
     int entropAnsSize;
     double thresholdTresh;
     double binarizationThreshold;
